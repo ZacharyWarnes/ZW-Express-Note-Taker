@@ -1,11 +1,16 @@
 //require Express
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
+const PORT = process.env.port || 3001;
+
+const app = express();
 
 //require the db.json file and store it in 'notes'
 
 //use express to initialize the 'app' server
-const app = express();
+
 //GET /notes should return the notes.html file.
 
 //Get * should return the index.html file
