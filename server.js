@@ -1,11 +1,11 @@
 //require Express
+const express = require('express');
+
 
 //require the db.json file and store it in 'notes'
 
-const note= "db.json";
-
 //use express to initialize the 'app' server
-
+const app = express();
 //GET /notes should return the notes.html file.
 
 //Get * should return the index.html file
