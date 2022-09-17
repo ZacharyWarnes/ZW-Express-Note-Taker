@@ -1,6 +1,10 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const util = require('util');
+
+
+
 
 const PORT = process.env.port || 3001;
 
@@ -11,12 +15,12 @@ const PORT = process.env.port || 3001;
 const app = express();
 
 //Get * should return the index.html file
-app.get('/', (req, res) =>
+app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
 //GET /notes should return the notes.html file.
-app.get('/', (req, res) =>
+app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
