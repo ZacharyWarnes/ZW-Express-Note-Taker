@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const util = require('util');
 const db = require('./db/db.json');
+const { v4: uuidv4 } =require('uuid');
 
 const PORT = process.env.port || 3001;
 
@@ -30,7 +31,35 @@ app.get('api/notes', (req,res) => {
   readFromFile('db').then((data)=> res.json(JSON.parse(data)));
 });
 
-//POST /api/notes should receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client. You'll need to find a way to give each note a unique id when it's saved (look into npm packages that could do this for you).
+//POST Route for submitting note
+app.post('api/notes', (req,res) => {
+  //POST note request rec
+  console.info(`${req.method} request received to post note`);
+
+  //Destructing assignment for the items in req.body
+  const { text, title } = req.body;
+
+  //If all the required properties are present
+  if (text && title) {
+    //Variable for the object to save
+    const newNote = {
+      text,
+      title,
+      note_id: uuidv4()
+    };
+
+    readAndAppend(newNote, 'db');
+
+    const response = {
+      status: 'success',
+      body: newNote,
+    };
+
+    res.json(response);
+  } else {
+    res.json('Error posting note')
+  }
+});
 
 //Using app to listen to designated PORT
 app.listen(PORT, () =>
