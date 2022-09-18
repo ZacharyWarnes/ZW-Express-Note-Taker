@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const util = require('util');
 const db = require('./db/db.json');
-const { v4: uuidv4 } = require( 'uuid' );
+const uuid = require('./helpers/uuid');
 
 const PORT = process.env.port || 3001;
 
@@ -45,7 +45,7 @@ app.post('api/notes', (req,res) => {
     const newNote = {
       text,
       title,
-      note_id: uuidv4()
+      note_id: uuid(),
     };
 
     readAndAppend(newNote, 'db');
