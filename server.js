@@ -3,16 +3,18 @@ const path = require('path');
 const fs = require('fs');
 const util = require('util');
 
-
-
-
 const PORT = process.env.port || 3001;
-
-
-//require the db.json file and store it in 'notes'
 
 //use express to initialize the 'app' server
 const app = express();
+
+//Middleware for parsing JSON and url-encoding form data
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.static('public'));
+
+//require the db.json file and store it in 'notes'
+
 
 //GET Route for homepage
 app.get('/', (req, res) =>
