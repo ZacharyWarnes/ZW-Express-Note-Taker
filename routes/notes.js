@@ -2,13 +2,17 @@ const express = require('express');
 const fs = require('fs');
 const uuid = require('../helpers/uuid');
 const notesRouter = express.Router();
-const db = require('./db/db.json');
+const {
+  readFromFile,
+  readAndAppend,
+  
+} = require('../helpers/fsUtils');
 
 
 //GET /api/notes should read the db.json file and return all saved notes as JSON.
 notesRouter.get('api/notes', (req,res) => {
     console.info(`${req.method} request received for notes`)
-    readFromFile('./db/db.json').then((data)=> res.json(JSON.parse(data)));
+    readFromFile('../db.db.json').then((data)=> res.json(JSON.parse(data)));
   });
   
   //POST Route for submitting note
@@ -28,7 +32,7 @@ notesRouter.get('api/notes', (req,res) => {
         note_id: uuid(),
       };
   
-      readAndAppend(newNote, './db/db.json');
+      readAndAppend(newNote, '../db.db.json');
         res.json(`note added successfully`);
     } else {
         res.error('Error adding note')
