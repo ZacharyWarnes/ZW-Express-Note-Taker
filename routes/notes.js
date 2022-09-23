@@ -1,21 +1,18 @@
+const express = require('express');
 const fs = require('fs');
 const uuid = require('../helpers/uuid');
-const notesRouter = require('express').Router();
-const {
-  readFromFile,
-  readAndAppend,
-} = require('../helpers/fsUtils');
+const notesRouter = express.Router();
+const db = require('../db/db.json');
 
 
-//GET /api/notes should read the db.json file and return all saved notes as JSON.
+// GET Route
 notesRouter.get('/', (req,res) => {
-    readFromFile('..db/db.json').then((data)=> res.json(JSON.parse(data)));
+    res.json(db);
   });
   
   //POST Route for submitting note
-  notesRouter.post('api/notes', (req,res) => {
-    //POST note request rec
-    console.info(`${req.method} request received to post note`);
+  notesRouter.post('/', (req,res) => {
+    console.log(req.body);
   
     //Destructing assignment for the items in req.body
     const { text, title } = req.body;
@@ -27,14 +24,31 @@ notesRouter.get('/', (req,res) => {
         text,
         title,
         note_id: uuid(),
-      };
-  
-      readAndAppend(newNote, '../db/db.json');
-        res.json(`note added successfully`);
-    } else {
-        res.error('Error adding note')
-    } 
-});
+      }
+      
+    //push newNote to empty array in db.json
+      db.push(newNote);
+
+    fs.writeFile('../db/db.json', JSON.stringify(db, null, 4), error => {
+      if (error) {
+        res.error('Error adding note');
+      } else {
+        
+        //success response
+        const response = {
+          status: 200,
+          ok: true,
+          body: newNote
+        };
+
+        res.json(response);
+      
+      }
+
+    });
+  }
+
+  });
   
 
 module.exports = notesRouter;
