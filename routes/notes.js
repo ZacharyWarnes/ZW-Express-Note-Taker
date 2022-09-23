@@ -31,12 +31,13 @@ notesRouter.get('/', (req,res) => {
 
     fs.writeFile('../db/db.json', JSON.stringify(db, null, 4), error => {
       if (error) {
-        res.error('Error adding note');
+        res.status(500).json('Could not save note');
       } else {
         
         //success response
         const response = {
           status: 200,
+          statusText: 'Note added',
           ok: true,
           body: newNote
         };
