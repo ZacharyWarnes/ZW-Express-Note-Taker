@@ -2,13 +2,14 @@ const express = require('express');
 const fs = require('fs');
 const uuid = require('../helpers/uuid');
 const notesRouter = express.Router();
-const db = require('../db/db.json');
+const { readAndAppend, readFromFile } = require('../helpers/fsUtils')
+// const db = require('../db/db.json');
 
 
-// GET Route
-notesRouter.get('/', (req,res) => {
-    res.json(db);
-  });
+// GET Route for retrieving all notes
+notesRouter.get('/', (req,res) => 
+    readFromFile('../db/db.json').then((data) => res.json(JSON.parse(data))));
+
   
   //POST Route for submitting note
   notesRouter.post('/', (req,res) => {
@@ -24,15 +25,17 @@ notesRouter.get('/', (req,res) => {
         text,
         title,
         note_id: uuid(),
-      }
+      };
       
     //push newNote to empty array in db.json
-      db.push(newNote);
+      // db.push(newNote);
 
-    fs.writeFile('../db/db.json', JSON.stringify(db, null, 4), error => {
-      if (error) {
-        res.status(500).json('Could not save note');
-      } else {
+    // fs.writeFile('../db/db.json', JSON.stringify(db, null, 4), (error) => {
+    //   if (error) {
+    //     res.status(500).json('Could not save note');
+    //   } else {
+
+    readAndAppend(newNote, '../db/db.json');
         
         //success response
         const response = {
@@ -43,13 +46,14 @@ notesRouter.get('/', (req,res) => {
         };
 
         res.json(response);
-      
+      } else {
+        res.json('Error in posting note');
       }
 
     });
-  }
+  // }
 
-  });
+  // });
   
 
 module.exports = notesRouter;
