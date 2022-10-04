@@ -1,19 +1,21 @@
-const express = require('express');
+
 const fs = require('fs');
 const uuid = require('../helpers/uuid');
-const notesRouter = express.Router();
-const { readAndAppend, readFromFile } = require('../helpers/fsUtils')
-// const db = require('../db/db.json');
+const notesRouter = require('express').Router();
+const { readAndAppend, readFromFile, } = require('../helpers/fsUtils')
+const db = require('../db/db.json');
 
 
 // GET Route for retrieving all notes
-notesRouter.get('/', (req,res) => 
-    readFromFile('../db/db.json').then((data) => res.json(JSON.parse(data))));
+notesRouter.get('/', (req,res) => {
+    console.info(`${req.method} request received for notes`)
+    readFromFile('../db/db.json').then((data) => res.json(JSON.parse(data)))
+  });
 
   
   //POST Route for submitting note
   notesRouter.post('/', (req,res) => {
-    console.log(req.body);
+    console.info(`${req.method} request received to add a note`)
   
     //Destructing assignment for the items in req.body
     const { text, title } = req.body;
@@ -39,10 +41,8 @@ notesRouter.get('/', (req,res) =>
         
         //success response
         const response = {
-          status: 200,
-          statusText: 'Note added',
-          ok: true,
-          body: newNote
+          status: 'Success!',
+          body: newNote,
         };
 
         res.json(response);
@@ -57,3 +57,4 @@ notesRouter.get('/', (req,res) =>
   
 
 module.exports = notesRouter;
+
