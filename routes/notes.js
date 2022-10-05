@@ -7,14 +7,21 @@ const db = require('../db/db.json');
 
 
 // GET Route for retrieving all notes
-notesRouter.get('/', (req,res) => {
-    console.info(`${req.method} request received for notes`)
-    readFromFile('../db/db.json').then((data) => res.json(JSON.parse(data)))
-  });
+notesRouter.get('/api/notes', (req,res) => {
+  // Send a message to the client
+  res.status(200).json(`${req.method} request received to get notes`);
+
+  // Log our request to the terminal
+  console.info(`${req.method} request received to get notes`);
+});
+ 
+  //   console.info(`${req.method} request received for notes`)
+  //   readFromFile('../db/db.json').then((data) => res.json(JSON.parse(data)))
+  // });
 
   
   //POST Route for submitting note
-  notesRouter.post('/', (req,res) => {
+  notesRouter.post('/api/notes', (req,res) => {
     console.info(`${req.method} request received to add a note`)
   
     //Destructing assignment for the items in req.body
@@ -28,7 +35,29 @@ notesRouter.get('/', (req,res) => {
         title,
         note_id: uuid(),
       };
+
+    //Obtain existing notes
+    fs.readFile('../db/db.json', 'utf8', (err, data)=> {
+      if (err) {
+        console.error(err);
+      } else {
+        const parsedNotes= JSON.parse(data);
+
+        parsedNotes.push(newNote);
+
+      fs.writeFile(
+        '../db/db.json',
+        JSON.stringify(parsedNotes, null, 4),
+        (writeErr) => 
+          writeErr
+            ? console.error(writeErr)
+            : console.info('Successfully updated notes')
+      );
+      }
+    });
       
+
+
     //push newNote to empty array in db.json
       // db.push(newNote);
 
@@ -37,7 +66,7 @@ notesRouter.get('/', (req,res) => {
     //     res.status(500).json('Could not save note');
     //   } else {
 
-    readAndAppend(newNote, '../db/db.json');
+    // readAndAppend(newNote, '../db/db.json');
         
         //success response
         const response = {
