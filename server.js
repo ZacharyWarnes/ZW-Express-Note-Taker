@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const api = require('./routes/index.js')
+const notesRouter = require('./routes/notes')
+
 
 const PORT = process.env.port || 3001;
 
@@ -13,6 +15,8 @@ app.use(express.urlencoded({extended: true}));
 app.use('/api', api)
 
 app.use(express.static('public'));
+
+app.use(notesRouter);
 
 //GET Route for homepage
 // app.get('/', (req, res) => 
