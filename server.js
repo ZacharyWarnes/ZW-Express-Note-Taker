@@ -1,10 +1,9 @@
 const express = require('express');
 const path = require('path');
 const api = require('./routes/index.js')
-const notesRouter = require('./routes/notes')
 
 
-const PORT = process.env.port || 3001;
+const PORT = process.env.PORT || 3001;
 
 //use express to initialize the 'app' server
 const app = express();
@@ -16,12 +15,7 @@ app.use('/api', api)
 
 app.use(express.static('public'));
 
-app.use(notesRouter);
 
-//GET Route for homepage
-// app.get('/', (req, res) => 
-//   res.sendFile(path.join(__dirname, '/public/index.html'))
-// );
 
 //GET Route for notes page
 app.get('/notes', (req, res) => 
