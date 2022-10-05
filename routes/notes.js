@@ -2,28 +2,18 @@
 const fs = require('fs');
 const uuid = require('../helpers/uuid');
 const notesRouter = require('express').Router();
-const { readAndAppend, readFromFile, } = require('../helpers/fsUtils')
 const db = require('../db/db.json');
 
 
 // GET Route for retrieving all notes
-notesRouter.get('/api/notes', (req,res) => {
-  // Send a message to the client
-  res.status(200).json(`${req.method} request received to get notes`);
-
-  // Log our request to the terminal
-  console.info(`${req.method} request received to get notes`);
+notesRouter.get('/', (req,res) => {
+ res.json(db);
 });
  
-  //   console.info(`${req.method} request received for notes`)
-  //   readFromFile('../db/db.json').then((data) => res.json(JSON.parse(data)))
-  // });
-
   
   //POST Route for submitting note
-  notesRouter.post('/api/notes', (req,res) => {
-    console.info(`${req.method} request received to add a note`)
-  
+  notesRouter.post('/', (req,res) => {
+    
     //Destructing assignment for the items in req.body
     const { text, title } = req.body;
   
@@ -34,40 +24,16 @@ notesRouter.get('/api/notes', (req,res) => {
         text,
         title,
         note_id: uuid(),
-      };
-
-    //Obtain existing notes
-    fs.readFile('../db/db.json', 'utf8', (err, data)=> {
-      if (err) {
-        console.error(err);
-      } else {
-        const parsedNotes= JSON.parse(data);
-
-        parsedNotes.push(newNote);
-
-      fs.writeFile(
-        '../db/db.json',
-        JSON.stringify(parsedNotes, null, 4),
-        (writeErr) => 
-          writeErr
-            ? console.error(writeErr)
-            : console.info('Successfully updated notes')
-      );
       }
-    });
-      
 
+      db.push(newNote);
 
-    //push newNote to empty array in db.json
-      // db.push(newNote);
-
-    // fs.writeFile('../db/db.json', JSON.stringify(db, null, 4), (error) => {
-    //   if (error) {
-    //     res.status(500).json('Could not save note');
-    //   } else {
-
-    // readAndAppend(newNote, '../db/db.json');
-        
+      fs.writeFile('./db/db.json', JSON.stringify(db, null, 4), (err) => 
+      err 
+        ? console.error(err) 
+        : console.info(`Note Submitted`)
+      );
+    
         //success response
         const response = {
           status: 'Success!',
@@ -80,10 +46,7 @@ notesRouter.get('/api/notes', (req,res) => {
       }
 
     });
-  // }
-
-  // });
-  
+ 
 
 module.exports = notesRouter;
 
