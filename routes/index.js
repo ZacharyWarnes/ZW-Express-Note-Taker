@@ -1,6 +1,6 @@
 const express = require('express');
 const notesRouter = require('./notes');
-api = express.Router();
+const api = express.Router();
 
 
 //Initializing notes route
