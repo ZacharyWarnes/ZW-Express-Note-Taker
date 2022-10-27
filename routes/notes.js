@@ -3,11 +3,12 @@ const fs = require('fs');
 const uuid = require('../helpers/uuid');
 const notesRouter = require('express').Router();
 const db = require('../db/db.json');
+const {readFromFile} = require('../helpers/fsUtils');
 
 
 // GET Route for retrieving all notes
 notesRouter.get('/', (req,res) => {
- res.json(db);
+res.json(db);
 });
  
   
@@ -23,7 +24,7 @@ notesRouter.get('/', (req,res) => {
       const newNote = {
         text,
         title,
-        note_id: uuid(),
+        id: uuid(),
       }
 
       db.push(newNote);
