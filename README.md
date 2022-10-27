@@ -14,7 +14,7 @@
 
 
  ## **Description**
-This is a web-based application for writing and storing notes. 
+This is a web-based application for writing and storing notes. Below is a link to the deployed site on Heroku.
  
  [DEPLOYED APPLICATION](https://zw-note-express-note-taker.herokuapp.com/)
 
@@ -28,7 +28,10 @@ To install this application, clone the repository to your local machine and open
 * You can also open the app through the deployed link in this README. This is the recommended method. 
 * Click the "Get Started" button to go to the notes page. Enter the title of your note in the supplied field to the right of the page. Enter the note text below this.
 * A floppy disk icon will appear in the upper right hand corner of the webpage to save your note. I plus symbol will allow you to start a new note.
-* See the instructional video below if you have any questions.
+* The delete route is not functional. Please ignore
+* Below is a screenshot of the working notes page
+
+![Working Notes Page](./Notes%20Page.png)
  
 
 ## **Technologies**
