@@ -3,7 +3,6 @@ const fs = require('fs');
 const uuid = require('../helpers/uuid');
 const notesRouter = require('express').Router();
 const db = require('../db/db.json');
-const {readFromFile} = require('../helpers/fsUtils');
 
 
 // GET Route for retrieving all notes
