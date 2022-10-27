@@ -12,11 +12,11 @@
 
 * [Questions](#questions)
 
-[DEPLOYED APPLICATION](https://zw-note-express-note-taker.herokuapp.com/)
 
  ## **Description**
 This is a web-based application for writing and storing notes. 
  
+ [DEPLOYED APPLICATION](https://zw-note-express-note-taker.herokuapp.com/)
 
  ## **Installation**
 To install this application, clone the repository to your local machine and open it in your code editor. This application is deployed on Heroku to installation is not necessary at this time.
